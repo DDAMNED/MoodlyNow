@@ -1,0 +1,362 @@
+<!-- Guarda este archivo como voz.html -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MoodlyNow - Voz</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Pacifico&display=swap" rel="stylesheet" />
+  <style>
+    /* --- Estilo general --- */
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(to bottom, #B3D4FC, #FFF9F4);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      text-align: center;
+      color: #333;
+      padding: 20px;
+    }
+
+    h1 {
+      font-size: 1.8rem;
+      margin-bottom: 30px;
+    }
+
+    .mic-button {
+      background-color: #4A7C59;
+      border: none;
+      border-radius: 50%;
+      width: 80px;
+      height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+      transition: background-color 0.3s ease;
+    }
+
+    .mic-button:hover {
+      background-color: #3a6042;
+    }
+
+    .mic-icon {
+      width: 36px;
+      height: 36px;
+      fill: white;
+    }
+
+    .loading {
+      margin-top: 25px;
+      font-size: 1.1rem;
+      color: #4A7C59;
+      display: none;
+    }
+
+    .dots::after {
+      content: '';
+      animation: dots 1.5s steps(3, end) infinite;
+    }
+
+    @keyframes dots {
+      0% { content: ''; }
+      33% { content: '.'; }
+      66% { content: '..'; }
+      100% { content: '...'; }
+    }
+
+    /* --- NUEVA RESPUESTA DISEÑO --- */
+    .response {
+      display: none;
+      margin-top: 40px;
+      max-width: 600px;
+      width: 90%;
+      background-color: #ffffff;
+      padding: 22px 26px;
+      border-radius: 20px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+      text-align: left;
+      position: relative;
+      animation: fadeInUp 0.6s ease-out;
+    }
+
+    .response::before {
+      content: "💬";
+      position: absolute;
+      top: -18px;
+      left: 20px;
+      font-size: 1.5rem;
+      background-color: #ffffff;
+      padding: 0 6px;
+      border-radius: 50%;
+    }
+
+    .response p {
+      font-size: 1.15rem;
+      line-height: 1.6;
+      margin: 0;
+      color: #444;
+      font-family: 'Inter', sans-serif;
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(15px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .btn-group {
+      margin-top: 25px;
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .btn-group button {
+      background-color: #4A7C59;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 25px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      min-width: 130px;
+    }
+
+    .btn-group button:hover {
+      background-color: #3a6042;
+    }
+
+    #writeSection {
+      margin-top: 20px;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      gap: 15px;
+      width: 100%;
+    }
+
+    #writeSection textarea {
+      width: 90%;
+      max-width: 450px;
+      height: 120px;
+      background-color: white;
+      border: none;
+      border-radius: 16px;
+      padding: 16px;
+      font-size: 1.1rem;
+      font-family: 'Pacifico', cursive;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      resize: vertical;
+      color: #444;
+      transition: all 0.3s ease;
+    }
+
+    #writeSection textarea:focus {
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(74, 124, 89, 0.3);
+    }
+
+    #writeSection button {
+      background-color: #2E7D32;
+      color: white;
+      border: none;
+      padding: 10px 24px;
+      border-radius: 20px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    #writeSection button:hover {
+      background-color: #1B5E20;
+    }
+
+    #messageSent {
+      margin-top: 20px;
+      font-size: 1.1rem;
+      color: #2E7D32;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>¿Cómo te sientes hoy?<br>Dímelo con tu voz</h1>
+
+  <button class="mic-button" onclick="startRecognition()" title="Hablar con voz">
+    <svg class="mic-icon" viewBox="0 0 24 24">
+      <path d="M12 14a3 3 0 0 0 3-3V5a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3zm5-3a5 5 0 0 1-10 0H5a7 
+               7 0 0 0 14 0h-2zm-5 9a7.001 7.001 0 0 0 6.93-6H20a9 9 0 0 1-16 0h1.07A7.001 
+               7.001 0 0 0 12 20z" />
+    </svg>
+  </button>
+
+  <div class="loading" id="loading">Analizando tu voz<span class="dots"></span></div>
+
+  <div class="response" id="response">
+    <p id="responseText">Parece que hoy te sientes un poco pensativo.<br>¿Quieres hablarlo?</p>
+  </div>
+
+  <div class="btn-group" id="btnGroup">
+    <button onclick="mostrarMensaje()">Sí, quiero hablar</button>
+    <button onclick="mostrarEscribir()">Prefiero escribir</button>
+    <button onclick="mostrarBien()">Estoy bien, gracias</button>
+  </div>
+
+  <div id="writeSection">
+    <textarea id="mensajeTexto" placeholder="Escribe aquí lo que sientes..."></textarea>
+    <button onclick="enviarTexto()">Enviar</button>
+  </div>
+
+  <div id="messageSent">Gracias por compartirlo 💚. Te leemos con atención.</div>
+
+  <script>
+    const API_URL = '/api/chat';
+
+    let conversation = [
+      { role: "system", content: `
+Eres un asistente empático y profesional que brinda apoyo emocional con base en los mejores libros y expertos de psicología, nutrición y terapias reales.
+Responde siempre con soluciones prácticas, consejos concretos y estrategias útiles para la persona, sin hacer preguntas.
+Limita tus respuestas a unas 150 palabras máximo.
+Asegúrate de que la persona sienta que le escuchas y apoyas genuinamente.
+` }
+    ];
+
+    let mediaRecorder;
+    let audioChunks = [];
+
+    async function startRecognition() {
+      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+        alert("Tu navegador no soporta grabación de audio.");
+        return;
+      }
+
+      audioChunks = [];
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      mediaRecorder = new MediaRecorder(stream);
+
+      mediaRecorder.ondataavailable = e => {
+        audioChunks.push(e.data);
+      };
+
+      mediaRecorder.onstop = async () => {
+        const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+        const base64Audio = await blobToBase64(audioBlob);
+        await enviarAudioAI(base64Audio);
+      };
+
+      mediaRecorder.start();
+
+      document.getElementById('loading').style.display = 'block';
+      document.getElementById('response').style.display = 'none';
+      document.getElementById('writeSection').style.display = 'none';
+      document.getElementById('messageSent').style.display = 'none';
+      document.getElementById('btnGroup').style.display = 'none';
+
+      setTimeout(() => {
+        mediaRecorder.stop();
+      }, 5000);
+    }
+
+    function blobToBase64(blob) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onloadend = () => resolve(reader.result);
+        reader.onerror = reject;
+        reader.readAsDataURL(blob);
+      });
+    }
+
+    async function enviarAudioAI(base64Audio) {
+      try {
+        const responseEl = document.getElementById('response');
+        const responseTextEl = document.getElementById('responseText');
+        const loadingEl = document.getElementById('loading');
+        const btnGroup = document.getElementById('btnGroup');
+
+        loadingEl.style.display = 'block';
+        responseEl.style.display = 'none';
+        btnGroup.style.display = 'none';
+
+        const response = await fetch(API_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            audio: base64Audio,
+            conversation
+          })
+        });
+
+        const data = await response.json();
+
+        if (data.error) {
+          alert('Error de IA: ' + data.error);
+          loadingEl.style.display = 'none';
+          btnGroup.style.display = 'flex';
+          return;
+        }
+
+        const reply = data.reply || "Lo siento, no pude procesar tu mensaje.";
+        conversation.push({ role: "assistant", content: reply });
+
+        responseTextEl.innerHTML = reply.replace(/\n/g, '<br>');
+        responseEl.style.display = 'block';
+        loadingEl.style.display = 'none';
+        btnGroup.style.display = 'flex';
+
+      } catch (error) {
+        alert('Error en la comunicación con la IA: ' + error.message);
+        document.getElementById('loading').style.display = 'none';
+        document.getElementById('btnGroup').style.display = 'flex';
+      }
+    }
+
+    function mostrarMensaje() {
+      const responseTextEl = document.getElementById('responseText');
+      responseTextEl.innerHTML = "Perfecto, empecemos. Puedes empezar cuando quieras 🗣️";
+      document.getElementById('writeSection').style.display = 'none';
+      document.getElementById('messageSent').style.display = 'none';
+      document.getElementById('response').style.display = 'block';
+      document.getElementById('btnGroup').style.display = 'flex';
+    }
+
+    function mostrarEscribir() {
+      document.getElementById('writeSection').style.display = 'flex';
+      document.getElementById('messageSent').style.display = 'none';
+      document.getElementById('response').style.display = 'block';
+      document.getElementById('btnGroup').style.display = 'none';
+    }
+
+    function mostrarBien() {
+      const responseTextEl = document.getElementById('responseText');
+      responseTextEl.innerHTML = "Nos alegra saber que estás bien. ¡Cuídate mucho! 💚";
+      document.getElementById('writeSection').style.display = 'none';
+      document.getElementById('messageSent').style.display = 'none';
+      document.getElementById('response').style.display = 'block';
+      document.getElementById('btnGroup').style.display = 'flex';
+    }
+
+    async function enviarTexto() {
+      const texto = document.getElementById('mensajeTexto').value.trim();
+      if (texto === '') {
+        alert("Por favor, escribe algo antes de enviar.");
+        return;
+      }
+      conversation.push({ role: "user", content: texto });
+      await enviarAudioAI(null);
+      document.getElementById('writeSection').style.display = 'none';
+      document.getElementById('messageSent').style.display = 'block';
+      document.getElementById('mensajeTexto').value = '';
+      document.getElementById('btnGroup').style.display = 'flex';
+    }
+  </script>
+</body>
+</html>

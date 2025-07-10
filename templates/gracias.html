@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Gracias - MoodlyNow</title>
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+    body {
+      min-height: 100vh;
+      background: linear-gradient(to bottom, #B3D4FC, #FFF9F4);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      color: #333333;
+      padding: 20px;
+      position: relative;
+      text-align: center;
+    }
+    .logo {
+      font-family: 'Pacifico', cursive;
+      font-weight: 400;
+      font-size: 3rem;
+      color: #4A7C59;
+      margin-bottom: 20px;
+      user-select: none;
+    }
+    .message {
+      font-size: 1.3rem;
+      max-width: 360px;
+      color: #555555;
+      margin-bottom: 2rem;
+      line-height: 1.5;
+      user-select: none;
+    }
+    .btn-container {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+    .btn {
+      background-color: #4A7C59;
+      color: white;
+      padding: 14px 48px;
+      border-radius: 30px;
+      font-size: 1.2rem;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 4px 8px rgba(74, 124, 89, 0.4);
+      font-family: 'Pacifico', cursive;
+      text-decoration: none;
+      transition: background-color 0.3s ease;
+      user-select: none;
+      display: inline-block;
+    }
+    .btn:hover {
+      background-color: #3a6042;
+    }
+    .firma {
+      position: absolute;
+      bottom: 10px;
+      right: 15px;
+      font-family: 'Pacifico', cursive;
+      font-size: 1rem;
+      color: #4A7C59;
+      opacity: 0.6;
+      cursor: pointer;
+      transition: opacity 0.3s ease;
+      user-select: none;
+      text-decoration: none;
+    }
+    .firma:hover {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+  <div class="logo">MoodlyNow</div>
+  <div class="message">
+    ¡Gracias por tu donación! 💜<br />
+    Tu apoyo nos impulsa a seguir desarrollando herramientas emocionales gratuitas y accesibles para todos.
+  </div>
+  <div class="btn-container">
+    <a href="index.html" class="btn">Volver al inicio</a>
+    <a href="donar.html" class="btn">Donar otra vez</a>
+  </div>
+
+  <a class="firma" href="https://instagram.com/25.anntoonio" target="_blank" rel="noopener noreferrer">Antonio Renzo</a>
+</body>
+</html>
+

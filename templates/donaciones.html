@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Haz tu donación a MoodlyNow y apoya la salud emocional gratuita y accesible para todos. Gracias por tu ayuda 💜." />
+  <title>MoodlyNow - Donar</title>
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet" />
+  <script src="https://js.stripe.com/v3/"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+    body {
+      min-height: 100vh;
+      background: linear-gradient(to bottom, #B3D4FC, #FFF9F4);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      color: #333333;
+      padding: 20px;
+      position: relative;
+      text-align: center;
+    }
+    .logo {
+      font-family: 'Pacifico', cursive;
+      font-weight: 400;
+      font-size: 3rem;
+      color: #4A7C59;
+      margin-bottom: 12px;
+      user-select: none;
+    }
+    .subtitle {
+      font-size: 1.25rem;
+      max-width: 320px;
+      margin-bottom: 30px;
+      line-height: 1.5;
+      color: #555555;
+      user-select: none;
+    }
+    .motivacion {
+      font-size: 1rem;
+      color: #4A7C59;
+      margin-bottom: 30px;
+      max-width: 320px;
+    }
+    .btn-donar {
+      background-color: #4A7C59;
+      color: white;
+      padding: 12px 30px;
+      border-radius: 30px;
+      font-size: 1rem;
+      font-weight: 600;
+      border: none;
+      margin: 8px;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(74, 124, 89, 0.4);
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+    .btn-donar:hover {
+      background-color: #3a6042;
+      transform: scale(1.05);
+    }
+    input[type="number"] {
+      padding: 10px;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      margin-top: 10px;
+      margin-bottom: 5px;
+      width: 100px;
+      font-size: 1rem;
+    }
+    .volver {
+      margin-top: 30px;
+    }
+    .volver a {
+      color: #4A7C59;
+      font-weight: 600;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    .volver a:hover {
+      color: #3a6042;
+      text-decoration: underline;
+    }
+    .firma {
+      position: absolute;
+      bottom: 10px;
+      right: 15px;
+      font-family: 'Pacifico', cursive;
+      font-size: 1rem;
+      color: #4A7C59;
+      opacity: 0.6;
+      cursor: pointer;
+      transition: opacity 0.3s ease;
+      user-select: none;
+      text-decoration: none;
+    }
+    .firma:hover {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+  <div class="logo">MoodlyNow</div>
+  <div class="subtitle">
+    Tu donación ayuda a que sigamos creando herramientas emocionales gratuitas, accesibles y con impacto real. 💜
+  </div>
+
+  <div class="motivacion">
+    Con tu ayuda mantenemos esta app viva, gratuita y disponible para todos, sin importar su edad, país o situación emocional. Cada euro puede salvar una vida.
+  </div>
+
+  <button class="btn-donar" onclick="donar(200)">Donar 2 €</button>
+  <button class="btn-donar" onclick="donar(500)">Donar 5 €</button>
+  <button class="btn-donar" onclick="donar(1000)">Donar 10 €</button>
+
+  <div>
+    <p style="margin-top:20px; color:#555;">¿Quieres donar otra cantidad?</p>
+    <input type="number" id="personalizado" min="1" placeholder="€" />
+    <br />
+    <button class="btn-donar" onclick="donarPersonalizado()">Donar monto libre</button>
+  </div>
+
+  <div class="volver">
+    <a href="/">← Volver al inicio</a>
+  </div>
+
+  <a class="firma" href="https://instagram.com/25.anntoonio" target="_blank" rel="noopener noreferrer">Antonio Renzo</a>
+
+  <script>
+    const stripe = Stripe("pk_live_51RiuccBoeIVCOdOkPETbNeKfcnnngnUTi0N1Ye2QXfoVBhyR7YVr39U8GZpYfuLDFCr7DD8HU16c90pLG0u9BaIM008PQJg3SJ");
+
+    async function donar(cantidad) {
+      const res = await fetch("/create-checkout-session", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ amount: cantidad })
+      });
+      const session = await res.json();
+      stripe.redirectToCheckout({ sessionId: session.id });
+    }
+
+    function donarPersonalizado() {
+      const euros = parseFloat(document.getElementById("personalizado").value);
+      if (euros >= 1) {
+        donar(Math.round(euros * 100));
+      } else {
+        alert("Introduce un monto válido (mínimo 1 €)");
+      }
+    }
+  </script>
+</body>
+</html>
+

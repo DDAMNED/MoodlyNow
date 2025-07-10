@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MoodlyNow - Bienvenida</title>
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+    body {
+      height: 100vh;
+      background: linear-gradient(to bottom, #B3D4FC, #FFF9F4);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      color: #333333;
+      padding: 20px;
+      position: relative;
+    }
+    .logo {
+      font-family: 'Pacifico', cursive;
+      font-weight: 400;
+      font-size: 3rem;
+      color: #4A7C59;
+      margin-bottom: 20px;
+      user-select: none;
+    }
+    .subtitle {
+      font-size: 1.2rem;
+      margin-bottom: 40px;
+      text-align: center;
+      max-width: 280px;
+      line-height: 1.4;
+    }
+    .btn-start {
+      display: inline-block;
+      background-color: #4A7C59;
+      color: white;
+      padding: 15px 50px;
+      border-radius: 30px;
+      font-size: 1.25rem;
+      font-weight: 600;
+      text-align: center;
+      text-decoration: none;
+      box-shadow: 0 4px 8px rgba(74, 124, 89, 0.4);
+      transition: background-color 0.3s ease;
+      margin-bottom: 10px;
+      user-select: none;
+    }
+    .btn-start:hover {
+      background-color: #3a6042;
+    }
+    .donar-link {
+      font-size: 1.25rem;
+      color: #4A7C59;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+      user-select: none;
+      transition: color 0.3s ease;
+      margin-bottom: 20px;
+    }
+    .donar-link:hover {
+      color: #3a6042;
+      text-decoration: underline;
+    }
+    .iconos {
+      margin-top: 40px;
+      display: flex;
+      justify-content: center;
+      gap: 25px;
+    }
+    .icon {
+      width: 40px;
+      height: 40px;
+      fill: #4A7C59;
+      opacity: 0.8;
+      user-select: none;
+    }
+    .firma {
+      position: absolute;
+      bottom: 10px;
+      right: 15px;
+      font-family: 'Pacifico', cursive;
+      font-size: 1rem;
+      color: #4A7C59;
+      opacity: 0.6;
+      cursor: pointer;
+      transition: opacity 0.3s ease;
+      user-select: none;
+    }
+    .firma:hover {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+  <div class="logo">MoodlyNow</div>
+  <div class="subtitle">Tu espacio para entender y cuidar tus emociones</div>
+
+  <a href="/voz" class="btn-start">Empezar</a>
+
+  <a href="/donar" class="donar-link">Donar</a>
+
+  <div class="iconos" aria-label="Iconos emocionales">
+    <svg class="icon" viewBox="0 0 24 24">
+      <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 
+        2 5.42 4.42 3 7.5 3c1.74 0 3.41 0.81 4.5 2.09C13.09 
+        3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 
+        6.86-8.55 11.54L12 21.35z"/>
+    </svg>
+    <svg class="icon" viewBox="0 0 24 24">
+      <path d="M19.36 10.46a7.49 7.49 0 00-14.66 2.67A5.5 5.5 0 
+        007.5 19h11a4.5 4.5 0 00.86-8.54z"/>
+    </svg>
+    <svg class="icon" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="5"/>
+      <path d="M12 1v2"/>
+      <path d="M12 21v2"/>
+      <path d="M4.22 4.22l1.42 1.42"/>
+      <path d="M18.36 18.36l1.42 1.42"/>
+      <path d="M1 12h2"/>
+      <path d="M21 12h2"/>
+      <path d="M4.22 19.78l1.42-1.42"/>
+      <path d="M18.36 5.64l1.42-1.42"/>
+    </svg>
+  </div>
+
+  <a class="firma" href="https://instagram.com/25.anntoonio" target="_blank" rel="noopener noreferrer">Antonio Renzo</a>
+</body>
+</html>
